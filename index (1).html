@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>سروح - الدردشة الذكية</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="bot-avatar">
+      <img src="1000270286.png" alt="سروح">
+      <div class="bot-name">سروح</div>
+      <div class="bot-desc">مرحباً بك! أنا سروح، هنا لمساعدتك دائماً.</div>
+    </div>
+    <div class="chat-box" id="chatBox"></div>
+    <div class="input-row">
+      <input type="text" id="userInput" placeholder="اكتب رسالتك هنا...">
+      <button onclick="sendMessage()">إرسال</button>
+    </div>
+  </div>
+  <script src="firebase-config.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

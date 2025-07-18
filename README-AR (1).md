@@ -1,0 +1,46 @@
+# واجهة دردشة سروح
+
+## المتطلبات
+- حساب Firebase
+- مفتاح OpenAI
+- سيرفر وسيط أو Cloud Function (لأمان المفتاح)
+
+## خطوات التركيب
+
+1. **ارفع جميع الملفات إلى Cithup أو أي سيرفر ويب.**
+2. **عدل بيانات `firebase-config.js` وضع بيانات مشروعك.**
+3. **جهّز Cloud Function أو سيرفر Node.js** لاستقبال الرسائل من الواجهة وإرسالها إلى OpenAI، ثم إعادة الرد.
+4. **ضع رابط الـ endpoint في `main.js` بدل `YOUR_CLOUD_FUNCTION_URL`.**
+5. **افتح الموقع وابدأ الدردشة!**
+
+## مثال كود Cloud Function (Node.js + Express)
+```js
+const express = require('express');
+const cors = require('cors');
+const { Configuration, OpenAIApi } = require('openai');
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+const openai = new OpenAIApi(new Configuration({
+  apiKey: 'YOUR_OPENAI_KEY'
+}));
+
+app.post('/ask', async (req, res) => {
+  const prompt = req.body.message;
+  try {
+    const completion = await openai.createChatCompletion({
+      model: 'gpt-4o',
+      messages: [{role: "user", content: prompt}],
+      max_tokens: 200
+    });
+    res.json({reply: completion.data.choices[0].message.content});
+  } catch(e) {
+    res.json({reply: "حصل خطأ في الاتصال بالذكاء الاصطناعي."});
+  }
+});
+
+app.listen(3000, () => console.log('Ready!'));
+```
+
+**لا تضع مفتاح OpenAI في كود الجافاسكريبت الأمامي!**
